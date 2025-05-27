@@ -2,23 +2,17 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LocalModule } from './local.module';
 import { OrderModule } from './order.module';
-import { PredictionModule } from './prediction.module';
+import { CapacityModule } from './capacity.module';
+import ormConfig from 'src/infraestructure/config/ormconfig';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'fullfill_iq_db',
-      autoLoadEntities: true,
-      synchronize: true,
-    }),
+    TypeOrmModule.forRoot(
+     ormConfig
+    ),
     LocalModule,
     OrderModule,
-    PredictionModule,
+    CapacityModule,
   ],
 })
 export class AppModule {}

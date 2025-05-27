@@ -1,17 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Local } from '../../domain/entities/local.entity';
+import { Controller, Get, Param } from '@nestjs/common';
+import { LocalService } from '../../application/local/use-cases/local.service';
 
-@Controller('local')
+@Controller('stores')
 export class LocalController {
-  constructor(
-    @InjectRepository(Local)
-    private readonly repo: Repository<Local>,
-  ) {}
+  constructor(private readonly localService: LocalService) {}
 
   @Get()
-  async getAll() {
-    return await this.repo.find();
+  findAll() {
+    return this.localService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.localService.findOne(+id);
+  }
+
+  @Get(':id/orders')
+  findOrders(@Param('id') id: string) {
+    return this.localService.findOrders(+id);
   }
 }
